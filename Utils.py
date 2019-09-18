@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from matplotlib import pyplot as plt
 
 
 def get_data():
@@ -79,3 +80,27 @@ def get_minibatches(names, labels, mb_size):
     batches.append((names[position:], labels[position:]))
 
     return batches
+
+def plot_losses(title,pl_acc,pl_loss,epochs):
+    N = np.arange(0, epochs)
+    plt.style.use('ggplot')
+    plt.figure(1,figsize=(12,8))
+
+    plt.subplot(211)
+    plt.title(title)
+    plt.plot(N, pl_acc[:,0],label="Train Accuracy", linewidth=2)
+    plt.plot(N, pl_loss[:,0],label="Train Loss",linewidth=2,)
+    plt.xlim(-5,55)
+    plt.legend(loc=5)
+    plt.ylabel("Loss/Accuracy")
+
+    plt.subplot(212)
+    plt.plot(N, pl_loss[:,1],label="Test Loss",linewidth=2)
+    plt.plot(N, pl_acc[:,1],label="Test Accuracy",linewidth=2)
+    plt.xlabel("Epoch #")
+    plt.xlim(-5,55)
+    plt.ylabel("Loss/Accuracy")
+    plt.legend(loc=5)
+
+    plt.show()
+    # plt.savefig("tes.png")
