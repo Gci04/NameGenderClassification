@@ -1,17 +1,33 @@
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
+from sklearn.model_selection import train_test_split
 
 
-def get_data():
-    train_data = pd.read_csv("Data/English/train_eng.csv")
-    test_data = pd.read_csv("Data/English/test_eng.csv")
+def get_data(language="en"):
+    """Loads data from .csv files and split to train & test set """
 
-    # Convert data to numpy arrays
-    train = train_data.values
-    test = test_data.values
+    if language == "ru" :
+        df = pd.read_csv('../Data/Russian/data.csv.zip', compression='zip',usecols=[1,3] ,names=["имя","пол"], sep=',')
 
-    train = np.stack(sorted(list(train), key=lambda x: len(x[0])))
+        df.dropna(axis=0,inplace=True)
+        df.drop_duplicates(inplace=True)
+        df.query('пол == "Ж" | пол == "М"',inplace=True)
+
+        train , test = train_test_split(df, test_size= 0.2,shuffle=True)
+
+        train.reset_index(drop=True,inplace=True)
+        test.reset_index(drop=True,inplace=True)
+
+    else :
+        train_data = pd.read_csv("../Data/English/train_eng.csv")
+        test_data = pd.read_csv("../Data/English/test_eng.csv")
+
+        # Convert data to numpy arrays
+        train = train_data.values
+        test = test_data.values
+
+        train = np.stack(sorted(list(train), key=lambda x: len(x[0])))
 
     return train, test
 

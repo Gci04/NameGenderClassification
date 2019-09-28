@@ -9,3 +9,4 @@ from recurrentNetwork import *
 from ClassicalNeuralNetwork import *
 
 os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
+train ,test = get_data("en")
